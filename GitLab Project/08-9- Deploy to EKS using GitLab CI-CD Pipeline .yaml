@@ -1,0 +1,46 @@
+
+.gitlab-ci.yml
+---
+
+stages:
+  - install
+  - build_push_gitlab
+  - deploy
+
+
+variables:
+  IMAGE_NAME: "registry.gitlab.com/$CI_PROJECT_PATH:$CI_PIPELINE_IID"
+
+install_job:
+  stage: install
+  image: node:22-alpine
+  script:
+    - npm install
+
+
+build_push_job:
+  stage: build_push_gitlab
+  image: docker:24
+  services:
+    - docker:24-dind
+  before_script:
+    - docker build -t $IMAGE_NAME . 
+    - docker images
+  script:
+    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+    - docker push $IMAGE_NAME
+
+deploy_job:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: [""]
+
+  script:
+    - sed -i "s|IMAGE_PLACEHOLDER|$IMAGE_NAME|g" deployment.yaml
+    - kubectl config use-context "$KUBE_CONTEXT"
+    - kubectl apply -f deployment.yaml
+    - kubectl apply -f service.yaml
+
+---
+

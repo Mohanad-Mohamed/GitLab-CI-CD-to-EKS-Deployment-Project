@@ -1,0 +1,225 @@
+
+
+
+Create Folder on PC "NodeJS-App"
+
+
+gitlab-node-app/
+│
+├── server.js
+├── package.json
+└── public/
+    └── index.html
+
+
+✅ 01
+server.js
+---
+
+const express = require("express");
+const app = express();
+
+const PORT = 3000;
+
+// get image name from environment variable
+const IMAGE_NAME = process.env.IMAGE_NAME || "No Image Defined";
+
+// serve static files
+app.use(express.static("public"));
+
+// API to send image name
+app.get("/api/image", (req, res) => {
+  res.json({
+    image: IMAGE_NAME
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`App running on http://localhost:${PORT}`);
+});
+---
+
+
+✅ 02
+package.json
+---
+{
+  "name": "gitlab-node-app",
+  "version": "1.0.0",
+  "description": "GitLab CI/CD Demo App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+---
+
+✅ 03
+public/index.html
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitLab CI/CD App</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+}
+
+/* Main Title */
+.title {
+  font-size: 60px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Glow animation */
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px rgba(255,255,255,0.2);
+  }
+  to {
+    text-shadow: 0 0 30px rgba(255,255,255,0.8);
+  }
+}
+
+/* Branding */
+.branding {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #ccc;
+}
+
+.branding strong {
+  color: #00ffd5;
+}
+
+/* Subtitle */
+.subtitle {
+  margin-top: 25px;
+  font-size: 20px;
+  color: #ddd;
+}
+
+.image-name {
+  color: #00ffd5;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div>
+  <!-- Title -->
+  <div class="title">GitLab CI/CD Mastery</div>
+
+  <!-- Branding -->
+  <div class="branding">
+    Powered by <strong>DolfinED</strong><br>
+    Instructor: <strong>Mena Magdy Halem</strong>
+  </div>
+
+  <!-- Image Info -->
+  <div class="subtitle">
+    This app is running from image:
+    <span class="image-name" id="imageName">Loading...</span>
+  </div>
+</div>
+
+<script>
+fetch("/api/image")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("imageName").innerText = data.image;
+  });
+</script>
+
+</body>
+</html>
+---
+
+✅ 04
+.gitignore
+---
+node_modules/
+
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+pids
+*.pid
+*.seed
+*.pid.lock
+
+.env
+
+.DS_Store
+Thumbs.db
+
+coverage/
+
+dist/
+build/
+
+.vscode/
+.idea/
+
+---
+
+
+Open Terminal in VScode:
+
+
+PS C:\Users\Mena\Desktop\NodeJS-App> ls
+
+Mode                 LastWriteTime         Length Name                                                                         
+----                 -------------         ------ ----                                                                         
+d-----          4/7/2026   1:36 PM                public                                                                       
+-a----          4/7/2026   1:37 PM            197 .gitignore                                                                   
+-a----          4/7/2026   1:36 PM            231 package.json                                                                 
+-a----          4/7/2026   1:35 PM            468 server.js                                                                    
+
+
+
+PS C:\Users\Mena\Desktop\NodeJS-App> npm install
+
+added 68 packages, and audited 69 packages in 5s
+
+15 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+
+
+
+
+PS C:\Users\Mena\Desktop\NodeJS-App> npm start
+> gitlab-node-app@1.0.0 start
+> node server.js
+App running on http://localhost:3000
+
+
+

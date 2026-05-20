@@ -1,0 +1,30 @@
+
+
+
+Go TO Terminal:
+
+[ec2-user@ip-172-31-65-67 ~]$ kubectl create secret docker-registry gitlab-registry-secret \
+  --docker-server=registry.gitlab.com \
+  --docker-username=gitlab-ci-token \
+  --docker-password=glpat-KDBseoh6jc1gvTHi6yKyS2M6MQpvOjEKdTpqOWgyaQ8.01.170eeca5m
+secret/gitlab-registry-secret created
+
+
+[ec2-user@ip-172-31-65-67 ~]$ kubectl get secrets
+NAME                     TYPE                             DATA   AGE
+gitlab-registry-secret   kubernetes.io/dockerconfigjson   1      9s
+
+
+[ec2-user@ip-172-31-65-67 ~]$ kubectl describe secrets gitlab-registry-secret
+Name:         gitlab-registry-secret
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Type:  kubernetes.io/dockerconfigjson
+
+Data
+====
+.dockerconfigjson:  253 bytes
+
+

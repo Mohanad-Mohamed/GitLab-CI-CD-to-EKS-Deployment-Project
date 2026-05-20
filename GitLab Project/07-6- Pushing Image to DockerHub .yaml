@@ -1,0 +1,35 @@
+
+
+
+.gitlab-ci.yml
+---
+stages:
+  - install
+  - build_push_hub
+
+
+variables:
+  IMAGE_NAME: "$DOCKER_USERNAME/gitlab-demo"
+
+install_job:
+  stage: install
+  image: node:22-alpine
+  script:
+    - npm install
+
+build_push_job:
+  stage: build_push_hub
+  image: docker:24
+  services:
+    - docker:24-dind
+  before_script:
+    - docker build -t $IMAGE_NAME . 
+    
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker push $IMAGE_NAME
+    - docker images
+
+---
+
+

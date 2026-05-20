@@ -1,0 +1,67 @@
+
+
+.gitlab-ci.yml
+---
+stages:
+  - install
+  - build
+
+install_job:
+  stage: install
+  image: node:22-alpine
+  script:
+    - npm install
+
+build_job:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  script:
+    - docker build -t DOCKER_USERNAME/repository_name .  
+
+---
+
+
+
+.gitlab-ci.yml
+---
+stages:
+  - install
+  - build
+
+variables:
+  IMAGE_NAME: "$DOCKER_USERNAME/gitlab-demo"
+
+install_job:
+  stage: install
+  image: node:22-alpine
+  script:
+    - npm install
+
+build_job:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  script:
+    - docker build -t $IMAGE_NAME . 
+    - docker images
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+
+
+.gitlab-ci.yml
+---
+
+stages:
+  - install
+  - build_push_hub
+  - build_push_gitlab
+
+
+variables:
+  IMAGE_NAME: "registry.gitlab.com/$CI_PROJECT_PATH:$CI_PIPELINE_IID"
+
+install_job:
+  stage: install
+  image: node:22-alpine
+  script:
+    - npm install
+
+.build_push_job:
+  stage: build_push_hub
+  image: docker:24
+  services:
+    - docker:24-dind
+  before_script:
+    - docker build -t $IMAGE_NAME . 
+    - docker images
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker push $IMAGE_NAME
+
+build_push_job:
+  stage: build_push_gitlab
+  image: docker:24
+  services:
+    - docker:24-dind
+  before_script:
+    - docker build -t $IMAGE_NAME . 
+  script:
+    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+    - docker push $IMAGE_NAME
+    - docker images
+
+---

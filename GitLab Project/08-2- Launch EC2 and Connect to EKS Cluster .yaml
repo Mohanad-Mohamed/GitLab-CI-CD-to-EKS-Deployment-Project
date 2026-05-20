@@ -1,0 +1,76 @@
+
+
+
+
+# Install kubectl
+
+
+[ec2-user@ip-172-31-65-67 ~]$ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.35.3/2026-04-08/bin/linux/amd64/kubectl
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 57232k 100 57232k   0     0 17746k     0   0:00:03  0:00:03 --:--:-- 17751k
+
+
+[ec2-user@ip-172-31-65-67 ~]$ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.35.3/2026-04-08/bin/linux/amd64/kubectl.sha256
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    73 100    73   0     0   291     0  --:--:-- --:--:-- --:--:--   292
+
+
+[ec2-user@ip-172-31-65-67 ~]$ chmod +x ./kubectl
+
+
+[ec2-user@ip-172-31-65-67 ~]$ mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+
+
+
+[ec2-user@ip-172-31-65-67 ~]$ kubectl version --client
+Client Version: v1.35.3-eks-bbe087e
+Kustomize Version: v5.7.1
+
+
+[ec2-user@ip-172-31-65-67 ~]$ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 68193k 100 68193k   0     0 428.5M     0  --:--:-- --:--:-- --:--:-- 429.6M
+
+[ec2-user@ip-172-31-65-67 ~]$ unzip awscliv2.zip
+Archive:  awscliv2.zip
+
+
+[ec2-user@ip-172-31-65-67 ~]$ sudo ./aws/install
+You can now run: /usr/local/bin/aws --version
+
+
+[ec2-user@ip-172-31-65-67 ~]$ aws --version
+aws-cli/2.34.32 Python/3.14.4 Linux/6.1.166-197.305.amzn2023.x86_64 exe/x86_64.amzn.2023
+
+Create Role
+
+---
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeCluster",
+                "eks:ListClusters"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+---
+
+
+
+
+[ec2-user@ip-172-31-65-67 ~]$ aws eks update-kubeconfig --region us-east-1 --name eks-nodejs
+Added new context arn:aws:eks:us-east-1:944153906994:cluster/eks-nodejs to /home/ec2-user/.kube/config
+
+[ec2-user@ip-172-31-65-67 ~]$ kubectl get nodes
+NAME                  STATUS   ROLES    AGE     VERSION
+i-03c35bfdb7350119e   Ready    <none>   3h40m   v1.35.2-eks-f69f56f
+
+

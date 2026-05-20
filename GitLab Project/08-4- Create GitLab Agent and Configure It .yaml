@@ -1,0 +1,75 @@
+
+
+
+###################
+#### 03      ######
+###################
+
+
+Create File:
+
+
+.gitlab/agents/eks-agent/config.yaml
+---
+ci_access:
+  projects:
+    - id: gitlab-course4810107/gitlab-nodejs
+---
+
+
+Install helm
+
+[ec2-user@ip-172-31-65-67 ~]$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
+
+[ec2-user@ip-172-31-65-67 ~]$ chmod 700 get_helm.sh
+
+[ec2-user@ip-172-31-65-67 ~]$ ./get_helm.sh
+
+[ec2-user@ip-172-31-65-67 ~]$ helm version
+version.BuildInfo{Version:"v4.1.4", GitCommit:"05fa37973dc9e42b76e1d2883494c87174b6074f", GitTreeState:"clean", GoVersion:"go1.25.9", KubeClientVersion:"v1.35"}
+
+
+
+
+Install Agent
+
+
+
+[ec2-user@ip-172-31-65-67 ~]$ helm repo add gitlab https://charts.gitlab.io
+"gitlab" has been added to your repositories
+
+
+[ec2-user@ip-172-31-65-67 ~]$ helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "gitlab" chart repository
+Update Complete. ⎈Happy Helming!⎈
+
+
+[ec2-user@ip-172-31-65-67 ~]$ helm upgrade --install eks-agent gitlab/gitlab-agent \
+    --namespace gitlab-agent-eks-agent \
+    --create-namespace \
+    --set config.token= \
+    --set config.kasAddress=wss://kas.gitlab.com
+Release "eks-agent" does not exist. Installing it now.
+NAME: eks-agent
+LAST DEPLOYED: Tue Apr 21 09:33:37 2026
+NAMESPACE: gitlab-agent-eks-agent
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+Thank you for installing gitlab-agent.
+
+Your release is named eks-agent.
+
+## Changelog
+
+### 1.17.0
+
+
+[ec2-user@ip-172-31-65-67 ~]$ kubectl get po -n gitlab-agent-eks-agent
+NAME                                         READY   STATUS    RESTARTS   AGE
+eks-agent-gitlab-agent-v2-6878f5b4f4-lnd75   1/1     Running   0          79s
+eks-agent-gitlab-agent-v2-6878f5b4f4-qj76q   1/1     Running   0          79s
+

@@ -1,0 +1,58 @@
+
+
+
+PS C:\Users\Mena\Desktop\NodeJS-App> git remote add origin https://gitlab.com/gitlab-course4810107/gitlab-nodejs.git
+
+
+PS C:\Users\Mena\Desktop\NodeJS-App> git add .
+
+
+PS C:\Users\Mena\Desktop\NodeJS-App> git commit -m "files project nodejs"
+[master (root-commit) dbe2f3c] files project nodejs
+ 6 files changed, 1451 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 DockerFile
+ create mode 100644 package-lock.json
+ create mode 100644 package.json
+ create mode 100644 public/index.html
+ create mode 100644 server.js
+
+
+PS C:\Users\Mena\Desktop\NodeJS-App> git config --global credential.helper store
+
+
+PS C:\Users\Mena\Desktop\NodeJS-App> git branch -M main
+
+PS C:\Users\Mena\Desktop\NodeJS-App> git push -uf origin main
+Username for 'https://gitlab.com': 
+Password for 'https://MenaMagdyHalem@gitlab.com':    # <PASTE TOKEN HERE>
+
+
+
+=========================================================================================
+
+
+.gitlab-ci.yml
+---
+stages:
+  - install
+
+install_job:
+  stage: install
+  image: node:22-alpine
+  script:
+    - npm install
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
