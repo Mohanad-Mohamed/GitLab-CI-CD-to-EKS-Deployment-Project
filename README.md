@@ -1,3 +1,8 @@
+## Architecture
+
+<img width="1045" height="532" alt="Project Architecture" src="https://github.com/user-attachments/assets/cd7ee417-9b53-488a-94dc-32701495cfad" />
+
+
 # GitLab CI/CD to EKS Deployment Project
 
 A complete demonstration of deploying a Node.js application to Amazon EKS (Elastic Kubernetes Service) using GitLab CI/CD pipeline with Docker containerization.
