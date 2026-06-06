@@ -1,6 +1,4 @@
-# Architecture 
 
-<img width="2048" height="1230" alt="Architecture" src="https://github.com/user-attachments/assets/452b4d0f-bc30-4d3c-b93f-e02f2c4da1b5" />
 
 
 # GitLab CI/CD to EKS Deployment Project
